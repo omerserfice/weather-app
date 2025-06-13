@@ -20,29 +20,27 @@ spec:
         ports:
         - containerPort: 3000
         env:
-        - name: NODE_ENV
-          value: "production"
+        - name: DB_HOST
+          value: "postgresql"
         - name: PORT
           value: "3000"
-        - name: DB_HOST
-          value: "postgresql-service"
         - name: DB_PORT
           value: "5432"
         - name: DB_NAME
           valueFrom:
             secretKeyRef:
-              name: postgres-secret
-              key: database-name
+              name: app-secrets
+              key: DB_NAME
         - name: DB_USER
           valueFrom:
             secretKeyRef:
-              name: postgres-secret
-              key: database-user
+              name: app-secrets
+              key: DB_USER
         - name: DB_PASSWORD
           valueFrom:
             secretKeyRef:
-              name: postgres-secret
-              key: database-password
+              name: app-secrets
+              key: DB_PASS
         - name: JWT_SECRET
           valueFrom:
             secretKeyRef:
