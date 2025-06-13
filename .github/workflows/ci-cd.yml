@@ -51,14 +51,14 @@ jobs:
           docker build \
             --no-cache \
             --build-arg VITE_API_URL=${{ vars.VITE_NEWS_API_URL }} \
-            -t ${{ vars.GKE_REGION }}-docker.pkg.dev/${{ vars.GCP_PROJECT_ID }}/news-app/news-frontend:${{ env.IMAGE_TAG }} \
+            -t ${{ vars.GKE_REGION }}-docker.pkg.dev/${{ vars.GCP_PROJECT_ID }}/weather-app/weather-frontend:${{ env.IMAGE_TAG }} \
             news-app/frontend
-          docker push ${{ vars.GKE_REGION }}-docker.pkg.dev/${{ vars.GCP_PROJECT_ID }}/news-app/news-frontend:${{ env.IMAGE_TAG }}
+          docker push ${{ vars.GKE_REGION }}-docker.pkg.dev/${{ vars.GCP_PROJECT_ID }}/weather-app/weather-frontend:${{ env.IMAGE_TAG }}
 
       - name: 📝 Update manifests with full image lines
         run: |
-          sed -i "s|^\( *image: \).*news-backend.*|\\1${{ vars.GKE_REGION }}-docker.pkg.dev/${{ vars.GCP_PROJECT_ID }}/news-app/news-backend:${{ env.IMAGE_TAG }}|" manifests/deployment-backend.yaml
-          sed -i "s|^\( *image: \).*news-frontend.*|\\1${{ vars.GKE_REGION }}-docker.pkg.dev/${{ vars.GCP_PROJECT_ID }}/news-app/news-frontend:${{ env.IMAGE_TAG }}|" manifests/deployment-frontend.yaml
+          sed -i "s|^\( *image: \).*weather-backend.*|\\1${{ vars.GKE_REGION }}-docker.pkg.dev/${{ vars.GCP_PROJECT_ID }}/weather-app/weather-backend:${{ env.IMAGE_TAG }}|" manifests/deployment-backend.yaml
+          sed -i "s|^\( *image: \).*weather-frontend.*|\\1${{ vars.GKE_REGION }}-docker.pkg.dev/${{ vars.GCP_PROJECT_ID }}/weather-app/weather-frontend:${{ env.IMAGE_TAG }}|" manifests/deployment-frontend.yaml
 
       - name: 📤 Commit and push manifest changes
         run: |
