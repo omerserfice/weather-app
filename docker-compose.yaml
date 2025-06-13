@@ -42,7 +42,7 @@ services:
     depends_on:
       - weather-api
     environment:
-      - REACT_APP_API_URL=http://localhost:3000
+      - REACT_APP_API_URL=http://35.184.62.157
     ports:
       - "3001:80"
     restart: unless-stopped
