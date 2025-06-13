@@ -30,7 +30,7 @@ services:
       - NODE_ENV=production
       - PORT=3000
       - WEATHER_API_KEY=1dda9a7ea5834bf7ec4732ff5453e0e4
-      - DATABASE_URL=postgresql://postgres:postgres@postgres:5432/weatherdb?sslmode=disable
+      - DATABASE_URL=postgresql://postgres:postgres@postgres:5432/weatherdb
     ports:
       - "3000:3000"
     restart: unless-stopped

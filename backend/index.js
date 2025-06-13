@@ -20,7 +20,7 @@ const pool = new Pool({
 });
 const cors = require("cors");
 app.use(cors({
-  origin: 'http://localhost:3001', // React app çalıştığı port
+  origin: ['http://localhost:3001','http://34.27.53.239/'], // React app çalıştığı port
 }));
 // JSON middleware ekle
 app.use(express.json());
@@ -76,7 +76,7 @@ app.get("/", (req, res) => {
       "/weather-logs": "Son kayıtları görüntüle (?limit=N)",
       "/weather-logs?limit=5": "Son 5 kaydı görüntüle"
     },
-    info: "Hava durumu her dakikada bir otomatik güncelleniyor."
+    info: "Hava durumu her 5 dakikada bir otomatik güncelleniyor."
   });
 });
 
@@ -106,7 +106,7 @@ async function fetchWeather() {
 }
 
 
-cron.schedule("0 * * * * *", () => {
+cron.schedule("*/5 * * * *", () => {
   console.log("Cron job çalışıyor - hava durumu güncelleniyor...");
   fetchWeather();
 });
