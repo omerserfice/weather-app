@@ -13,8 +13,11 @@ spec:
         app: weather-frontend
     spec:
       containers:
-        - name: nweather-frontend
+        - name: weather-frontend
           image: us-central1-docker.pkg.dev/weather-app-gke-462718/weather-app/weather-frontend:19
           imagePullPolicy: Always
           ports:
             - containerPort: 80
+          env:
+            - name: REACT_APP_API_URL
+              value: "http://35.184.62.157" # Internal service adı kullan

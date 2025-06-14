@@ -11,19 +11,42 @@ const port = process.env.PORT || 3000;
 //   connectionString: process.env.DATABASE_URL,
 // });
 const pool = new Pool({
-  host: process.env.DB_HOST,
-  port: process.env.DB_PORT,
-  database: process.env.DB_NAME,
-  user: process.env.DB_USER,
-  password: process.env.DB_PASSWORD,
-  ssl: { rejectUnauthorized: false }
+  host: process.env.DB_HOST || 'postgres',
+  port: process.env.DB_PORT || 5432,
+  database: process.env.DB_NAME || 'weatherdb',
+  user: process.env.DB_USER || 'postgres',
+  password: process.env.DB_PASSWORD || 'postgres',
+  ssl: process.env.NODE_ENV === 'production' ? { rejectUnauthorized: false } : false
 });
 const cors = require("cors");
 app.use(cors({
-  origin: ['http://localhost:3001', 'http://34.27.53.239'], // Frontend URL'leri
-  methods: ['GET', 'POST', 'PUT', 'DELETE'],
-  allowedHeaders: ['Content-Type', 'Authorization']
+  origin: [
+    'http://localhost:3001',
+    'http://localhost:3000', 
+    'http://34.27.53.239',
+    'http://35.184.62.157:3001',
+    'http://35.184.62.157',
+    'https://34.27.53.239',
+    'https://35.184.62.157',
+    process.env.FRONTEND_URL
+  ].filter(Boolean),
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization', 'Accept'],
+  credentials: true
 }));
+
+// Preflight requests için
+app.options('*', cors());
+
+// Health check endpoint
+app.get("/health", (req, res) => {
+  res.status(200).json({ 
+    status: "OK", 
+    timestamp: new Date().toISOString(),
+    service: "Weather API"
+  });
+});
+
 // JSON middleware ekle
 app.use(express.json());
 

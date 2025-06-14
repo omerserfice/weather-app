@@ -31,6 +31,10 @@ services:
       - PORT=3000
       - WEATHER_API_KEY=1dda9a7ea5834bf7ec4732ff5453e0e4
       - DATABASE_URL=postgresql://postgres:postgres@postgresql:5432/weatherdb?sslmode=disable
+      - DB_HOST=postgres
+      - DB_NAME=weatherdb
+      - DB_USER=postgres
+      - DB_PASSWORD=postgres
     ports:
       - "3000:3000"
     restart: unless-stopped
@@ -42,7 +46,7 @@ services:
     depends_on:
       - weather-api
     environment:
-      - REACT_APP_API_URL=http://35.184.62.157:3000
+      - REACT_APP_API_URL=http://35.184.62.157
     ports:
       - "3001:80"
     restart: unless-stopped
