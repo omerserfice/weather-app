@@ -20,7 +20,9 @@ const pool = new Pool({
 });
 const cors = require("cors");
 app.use(cors({
-  origin: ['http://localhost:3001','http://34.27.53.239/'], // React app çalıştığı port
+  origin: ['http://localhost:3001', 'http://35.184.62.157'], // Frontend URL'leri
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  allowedHeaders: ['Content-Type', 'Authorization']
 }));
 // JSON middleware ekle
 app.use(express.json());
