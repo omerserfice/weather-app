@@ -16,14 +16,16 @@ spec:
     spec:
       containers:
       - name: weather-backend
-        image: us-central1-docker.pkg.dev/weather-app-gke-462718/weather-app/weather-backend:22
+        image: us-central1-docker.pkg.dev/weather-app-gke-462718/weather-app/weather-backend:21
         ports:
         - containerPort: 3000
         env:
-        - name: DB_HOST
-          value: "postgresql"
+        - name: NODE_ENV
+          value: "production"
         - name: PORT
           value: "3000"
+        - name: DB_HOST
+          value: "postgresql"
         - name: DB_PORT
           value: "5432"
         - name: DB_NAME
@@ -41,6 +43,12 @@ spec:
             secretKeyRef:
               name: app-secrets
               key: DB_PASS
+        # WEATHER_API_KEY eklendi - bu eksikti!
+        - name: WEATHER_API_KEY
+          valueFrom:
+            secretKeyRef:
+              name: app-secrets
+              key: WEATHER_API_KEY
         resources:
           requests:
             memory: "256Mi"
@@ -48,6 +56,19 @@ spec:
           limits:
             memory: "512Mi"
             cpu: "500m"
+        # Health check probes
+        readinessProbe:
+          httpGet:
+            path: /health
+            port: 3000
+          initialDelaySeconds: 10
+          periodSeconds: 5
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 3000
+          initialDelaySeconds: 30
+          periodSeconds: 10
       restartPolicy: Always
 ---
 apiVersion: v1
