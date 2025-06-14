@@ -15,6 +15,8 @@ spec:
       containers:
         - name: weather-frontend
           image: us-central1-docker.pkg.dev/weather-app-gke-462718/weather-app/weather-frontend:19
+        - name: nweather-frontend
+          image: us-central1-docker.pkg.dev/weather-app-gke-462718/weather-app/weather-frontend:20
           imagePullPolicy: Always
           ports:
             - containerPort: 80
